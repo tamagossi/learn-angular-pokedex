@@ -1,0 +1,22 @@
+<section
+  class="flex justify-between items-center w-100 py-5 px-20 bg-yellow-300 shadow-lg"
+>
+  <img class="w-[120px]" src="assets/images/logo.png" alt="logo" srcset="" />
+
+  <nav class="flex gap-10 text-slate-700 text-lg">
+    <div class="flex flex-col gap-0 items-center" *ngFor="let menu of MENUS">
+      <a
+        class="hover:text-red-600 duration-300"
+        [href]="menu.path"
+        [ngClass]="{ 'text-red-600': router.url === menu.path }"
+      >
+        {{ menu.label }}
+      </a>
+
+      <div
+        class="rounded-full w-[20px] h-[4px] bg-red-600"
+        *ngIf="menu.path === router.url"
+      ></div>
+    </div>
+  </nav>
+</section>
