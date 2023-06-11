@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.pikachu-bg {
+  background-image: url("../src/assets/images/pikachu-with-ball.png");
+}

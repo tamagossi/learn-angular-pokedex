@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
+  public isDrawerOpen = false;
+
   protected MENUS: { label: string; path: string }[] = [
     {
       label: 'Home',

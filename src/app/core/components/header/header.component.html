@@ -1,10 +1,27 @@
 <section
-  class="flex justify-between items-center w-100 py-5 px-20 bg-yellow-300 shadow-lg sticky"
+  class="flex justify-between items-center w-100 py-5 px-7 bg-yellow-300 shadow-lg sticky"
 >
   <img class="w-[120px]" src="assets/images/logo.png" alt="logo" srcset="" />
 
-  <nav class="flex gap-10 text-slate-700 text-lg">
-    <div class="flex flex-col gap-0 items-center" *ngFor="let menu of MENUS">
+  <nav class="flex gap-10 text-slate-700 text-lg none">
+    <button
+      aria-controls="drawer-navigation"
+      class="block md:hidden cursor-pointer"
+      data-drawer-show="drawer-navigation"
+      data-drawer-target="drawer-navigation"
+      type="button"
+    >
+      <img
+        alt="menu"
+        src="assets/icons/hamburger.svg"
+        (click)="isDrawerOpen = !isDrawerOpen"
+      />
+    </button>
+
+    <div
+      class="hidden md:flex flex-col gap-0 items-center"
+      *ngFor="let menu of MENUS"
+    >
       <a
         class="hover:text-white duration-300"
         [href]="menu.path"
@@ -20,3 +37,30 @@
     </div>
   </nav>
 </section>
+
+<div
+  class="flex flex-col md:hidden p-10 fixed left-0 top-0 translate-x-[-1000px] z-[999] flex w-screen h-screen duration-500 bg-gradient-to-b from-yellow-300 to-yellow-500"
+  [ngClass]="{ 'translate-x-0': isDrawerOpen }"
+>
+  <div
+    class="flex justify-end mb-10 cursor-pointer"
+    (click)="isDrawerOpen = !isDrawerOpen"
+  >
+    <img src="assets/icons/close.svg" alt="close" class="w-[30px]" />
+  </div>
+
+  <div class="flex gap-2 items-center mb-5" *ngFor="let menu of MENUS">
+    <div
+      class="rounded-full w-[10px] h-[10px] bg-white"
+      *ngIf="menu.path === router.url"
+    ></div>
+
+    <a
+      class="hover:text-white duration-300 text-3xl"
+      [href]="menu.path"
+      [ngClass]="{ 'text-white': router.url === menu.path }"
+    >
+      {{ menu.label }}
+    </a>
+  </div>
+</div>
