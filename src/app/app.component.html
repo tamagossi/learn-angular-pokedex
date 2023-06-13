@@ -1,1 +1,9 @@
-<router-outlet> </router-outlet>
+<main class="flex flex-col h-screen w-screen overflow-x-hidden">
+  <app-header></app-header>
+
+  <section
+    class="flex flex-col flex-1 py-5 bg-gradient-to-b from-yellow-300 to-yellow-500"
+  >
+    <router-outlet></router-outlet>
+  </section>
+</main>

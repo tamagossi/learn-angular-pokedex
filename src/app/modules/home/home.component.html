@@ -1,40 +1,32 @@
-<div class="flex flex-col h-screen w-screen overflow-x-hidden">
-  <app-header></app-header>
+<section
+  class="flex lg:flex-row-reverse flex-1 flex-wrap lg:flex-nowrap items-center"
+>
+  <div class="flex justify-center">
+    <img
+      src="assets/images/pikachu-with-ball.png"
+      alt="pikachu"
+      class="h-[70%] w-[85%]"
+    />
+  </div>
 
-  <section
-    class="flex flex-col flex-1 py-5 bg-gradient-to-b from-yellow-300 to-yellow-500"
-  >
-    <main
-      class="flex lg:flex-row-reverse flex-1 flex-wrap lg:flex-nowrap items-center"
-    >
-      <div class="flex justify-center">
-        <img
-          src="assets/images/pikachu-with-ball.png"
-          alt="pikachu"
-          class="h-[70%] w-[85%]"
-        />
-      </div>
+  <div class="flex flex-col gap-5 w-full lg:w-3/5 lg:pl-20">
+    <h1 class="text-center text-4xl md:text-5xl lg:text-6xl lg:text-left">
+      <strong>Find</strong> all your favorite <strong>Pokemon</strong>
+    </h1>
 
-      <div class="flex flex-col gap-5 w-full lg:w-3/5 lg:pl-20">
-        <h1 class="text-center text-4xl md:text-5xl lg:text-6xl lg:text-left">
-          <strong>Find</strong> all your favorite <strong>Pokemon</strong>
-        </h1>
+    <p class="text-center text-lg md:text-xl lg:text-left">
+      You can know the type of Pokemon, its strengths, disadvantages and
+      abilities
+    </p>
 
-        <p class="text-center text-lg md:text-xl lg:text-left">
-          You can know the type of Pokemon, its strengths, disadvantages and
-          abilities
-        </p>
-
-        <div class="flex justify-center lg:justify-start">
-          <custom-button [onClick]="goToPokemonListPage">
-            See pokemons
-          </custom-button>
-        </div>
-      </div>
-    </main>
-
-    <div class="mt-10">
-      <app-footer></app-footer>
+    <div class="flex justify-center lg:justify-start">
+      <custom-button [onClick]="goToPokemonListPage">
+        See pokemons
+      </custom-button>
     </div>
-  </section>
+  </div>
+</section>
+
+<div class="mt-10">
+  <app-footer></app-footer>
 </div>

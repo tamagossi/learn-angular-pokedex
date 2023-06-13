@@ -14,8 +14,8 @@ export class HeaderComponent {
       path: '/',
     },
     {
-      label: 'Pokédex',
-      path: '/pokédex',
+      label: 'Pokemons',
+      path: '/pokemons',
     },
     {
       label: 'Legendaries',
