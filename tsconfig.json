@@ -24,7 +24,9 @@
     "paths": {
       "@/core": ["src/app/core/core.module.ts"],
       "@/core/components": ["src/app/core/components/index"],
-      "@/modules/home/*": ["src/app/modules/home/*"]
+      "@/core/constants": ["src/app/core/constants/index"],
+      "@/core/services": ["src/app/core/services/index"],
+      "@/modules": ["src/app/modules/index.ts"]
     }
   },
   "angularCompilerOptions": {
