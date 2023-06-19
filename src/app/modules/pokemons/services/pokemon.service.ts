@@ -13,12 +13,20 @@ export class PokemonService extends AdapterService {
     super(http);
   }
 
-  public getPokemons(): Observable<PokemonsResponse> {
-    return this.client.get<PokemonsResponse>(`${this.baseUrl}/pokemon`).pipe(
-      catchError((err) => {
-        throw Error(err);
-      })
-    );
+  public getPokemons(
+    keyword: string,
+    url?: string
+  ): Observable<PokemonsResponse> {
+    return this.client
+      .get<PokemonsResponse>(
+        url ? url + `/${keyword}` : `${this.baseUrl}/pokemon` + `/${keyword}`,
+        { params: { limit: 100 } }
+      )
+      .pipe(
+        catchError((err) => {
+          throw Error(err);
+        })
+      );
   }
 
   public getPokemonsDetail(url: string): Observable<Pokemon> {

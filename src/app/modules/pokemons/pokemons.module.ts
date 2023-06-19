@@ -12,8 +12,8 @@ import { PokemonsRoutingModule } from './pokemons-routing.module';
   imports: [
     CommonModule,
     CoreModule,
-    PokemonsRoutingModule,
     HttpClientModule,
+    PokemonsRoutingModule,
     RouterModule,
   ],
 })

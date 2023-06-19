@@ -3,28 +3,41 @@ import { forkJoin } from 'rxjs';
 
 import { Pokemon } from './models/pokemon';
 import { PokemonService } from './services/pokemon.service';
-import {
-  Pokemon as PokemonInterface,
-  PokemonsResponse,
-} from './interfaces/pokemons.interface';
+import { Pokemon as PokemonInterface } from './interfaces/pokemons.interface';
 
 @Component({
   selector: 'app-pokemons',
   templateUrl: './pokemons.component.html',
 })
 export class PokemonsComponent implements OnInit {
-  pokemons: Pokemon[] = [];
+  keyword: string = '';
   loading: boolean;
+  nextUrl?: string;
+  pokemons: Pokemon[] = [];
+  typeWithBlacktext: string[] = [
+    'normal',
+    'electric',
+    'psychic',
+    'rock',
+    'ghost',
+    'ground',
+    'ice',
+    'fighting',
+    'steel',
+  ];
 
   constructor(private service: PokemonService) {}
 
   ngOnInit() {
-    this.loading = true;
     this.getPokemons();
   }
 
-  getPokemons() {
-    this.service.getPokemons().subscribe((pokemonsResp) => {
+  getPokemons(url?: string) {
+    this.loading = true;
+
+    this.service.getPokemons(this.keyword, url).subscribe((pokemonsResp) => {
+      this.nextUrl = pokemonsResp.next;
+
       forkJoin(
         pokemonsResp.results.map((pok) => {
           return this.service.getPokemonsDetail(pok.url);
@@ -34,9 +47,12 @@ export class PokemonsComponent implements OnInit {
           this.pokemons.push(new Pokemon(resp));
         });
 
-        console.log(this.pokemons);
         this.loading = false;
       });
     });
+  }
+
+  getMorePokemons(): void {
+    this.getPokemons(this.nextUrl);
   }
 }
