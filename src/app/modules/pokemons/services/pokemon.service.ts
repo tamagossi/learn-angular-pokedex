@@ -7,21 +7,17 @@ import { Pokemon, PokemonsResponse } from '../interfaces/pokemons.interface';
 
 @Injectable({ providedIn: 'root' })
 export class PokemonService extends AdapterService {
-  baseUrl: string = 'https://pokeapi.co/api/v2';
+  public baseUrl: string = 'https://pokeapi.co/api/v2';
 
   constructor(http: HttpClient) {
     super(http);
   }
 
-  public getPokemons(
-    keyword: string,
-    url?: string
-  ): Observable<PokemonsResponse> {
+  public getPokemons(url?: string): Observable<PokemonsResponse> {
     return this.client
-      .get<PokemonsResponse>(
-        url ? url + `/${keyword}` : `${this.baseUrl}/pokemon` + `/${keyword}`,
-        { params: { limit: 100 } }
-      )
+      .get<PokemonsResponse>(url || `${this.baseUrl}/pokemon`, {
+        params: { limit: 100 },
+      })
       .pipe(
         catchError((err) => {
           throw Error(err);

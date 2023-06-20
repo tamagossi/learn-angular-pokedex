@@ -1,17 +1,49 @@
 <div class="flex flex-1 flex-col gap-5 items-center pt-1">
   <div class="flex justify-center items-center gap-2 w-full px-5">
-    <input
-      class="p-3 bg-gray-50 outline-gray-900 rounded-lg w-full md:w-2/5 lg:w-2/6"
-      type="text"
-      placeholder="Search Pokemons..."
-    />
+    <div
+      class="flex gap-3 bg-gray-50 outline-gray-900 p-3 rounded-lg w-full md:w-2/5 lg:w-2/6"
+    >
+      <img src="assets/icons/search.svg" alt="Load more" class="w-[20px]" />
 
-    <custom-button>Search..</custom-button>
+      <input
+        class="flex-1 outline-none bg-gray-50"
+        type="text"
+        placeholder="Search Pokemons..."
+        [value]="keyword"
+        (input)="setKeyword($event)"
+        (keyup.enter)="search()"
+      />
+
+      <div class="relative">
+        <div
+          class="absolute bg-white top-[-85px] left-[-430%] z-[999] p-1 rounded-lg shadow-lg w-[300px] text-center"
+          *ngIf="tooltipOpen"
+        >
+          You need to pass complete name (ex: bulbasaur). It doesn't support
+          partial name at the moment
+        </div>
+
+        <img
+          src="assets/icons/info.svg"
+          alt="Load more"
+          class="w-[30px]"
+          (mouseover)="tooltipOpen = true"
+          (mouseleave)="tooltipOpen = false"
+        />
+      </div>
+    </div>
+
+    <custom-button [onClick]="search">Search..</custom-button>
+  </div>
+
+  <div class="my-5" *ngIf="pokemonsNotFound">
+    There is no pokemons matched with your search...
   </div>
 
   <section
     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 mt-5 gap-5 px-5 w-full"
     [ngClass]="{ 'overflow-hidden': loading }"
+    *ngIf="pokemons.length > 0 && !pokemonsNotFound"
   >
     <div
       class="flex flex-col gap-5 bg-red-100 p-7 shadow-lg rounded-2xl w-full hover:scale-105 duration-300 cursor-pointer"
@@ -70,7 +102,10 @@
     </div>
   </div>
 
-  <div class="flex justify-center w-screen mt-5 mb-10" *ngIf="!loading">
+  <div
+    class="flex justify-center w-screen mt-5 mb-10"
+    *ngIf="!loading && !!nextUrl"
+  >
     <div
       class="bg-white/50 rounded-full p-2 animate-bounce cursor-pointer"
       (click)="getMorePokemons()"

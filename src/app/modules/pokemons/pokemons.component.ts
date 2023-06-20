@@ -10,10 +10,12 @@ import { Pokemon as PokemonInterface } from './interfaces/pokemons.interface';
   templateUrl: './pokemons.component.html',
 })
 export class PokemonsComponent implements OnInit {
-  keyword: string = '';
+  keyword?: string = '';
   loading: boolean;
   nextUrl?: string;
   pokemons: Pokemon[] = [];
+  tooltipOpen: boolean = false;
+  pokemonsNotFound: boolean = false;
   typeWithBlacktext: string[] = [
     'normal',
     'electric',
@@ -32,10 +34,11 @@ export class PokemonsComponent implements OnInit {
     this.getPokemons();
   }
 
-  getPokemons(url?: string) {
+  getPokemons = (url?: string) => {
     this.loading = true;
+    this.pokemonsNotFound = false;
 
-    this.service.getPokemons(this.keyword, url).subscribe((pokemonsResp) => {
+    this.service.getPokemons(url).subscribe((pokemonsResp) => {
       this.nextUrl = pokemonsResp.next;
 
       forkJoin(
@@ -50,9 +53,37 @@ export class PokemonsComponent implements OnInit {
         this.loading = false;
       });
     });
-  }
+  };
 
-  getMorePokemons(): void {
+  getMorePokemons = (): void => {
     this.getPokemons(this.nextUrl);
-  }
+  };
+
+  setKeyword = (event: any): void => {
+    this.keyword = event.target.value;
+  };
+
+  search = (): void => {
+    if (this.keyword === '') {
+      this.getPokemons();
+      return;
+    }
+
+    this.loading = true;
+    this.nextUrl = undefined;
+    this.pokemonsNotFound = false;
+
+    this.service
+      .getPokemonsDetail(this.service.baseUrl + `/pokemon/${this.keyword}`)
+      .subscribe({
+        next: (response) => {
+          this.pokemons = [new Pokemon(response)];
+          this.loading = false;
+        },
+        error: () => {
+          this.pokemonsNotFound = true;
+          this.loading = false;
+        },
+      });
+  };
 }
