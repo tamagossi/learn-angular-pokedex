@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { AdapterService } from '@/core/services';
 
 import { Pokemon, PokemonsResponse } from '../interfaces/pokemons.interface';
+import { TypeResponse } from '../interfaces/type.interface';
 
 @Injectable({ providedIn: 'root' })
 export class PokemonService extends AdapterService {
@@ -25,8 +26,16 @@ export class PokemonService extends AdapterService {
       );
   }
 
-  public getPokemonsDetail(url: string): Observable<Pokemon> {
+  public getPokemonDetail(url: string): Observable<Pokemon> {
     return this.client.get<Pokemon>(url).pipe(
+      catchError((err) => {
+        throw Error(err);
+      })
+    );
+  }
+
+  public getPokemonTypes(): Observable<TypeResponse> {
+    return this.client.get<TypeResponse>(`${this.baseUrl}/type`).pipe(
       catchError((err) => {
         throw Error(err);
       })

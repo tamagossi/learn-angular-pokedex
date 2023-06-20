@@ -4,6 +4,8 @@ import { forkJoin } from 'rxjs';
 import { Pokemon } from './models/pokemon';
 import { PokemonService } from './services/pokemon.service';
 import { Pokemon as PokemonInterface } from './interfaces/pokemons.interface';
+import { BG_BASED_ON_TYPE } from '@/core/constants';
+import { Result } from '@/core/interfaces';
 
 @Component({
   selector: 'app-pokemons',
@@ -16,21 +18,13 @@ export class PokemonsComponent implements OnInit {
   pokemons: Pokemon[] = [];
   tooltipOpen: boolean = false;
   pokemonsNotFound: boolean = false;
-  typeWithBlacktext: string[] = [
-    'normal',
-    'electric',
-    'psychic',
-    'rock',
-    'ghost',
-    'ground',
-    'ice',
-    'fighting',
-    'steel',
-  ];
+  types: (Result & { bg: string })[] = [];
+  textWithWhiteText: string[] = ['bug', 'fire', 'water', 'grass', 'shadow'];
 
   constructor(private service: PokemonService) {}
 
   ngOnInit() {
+    this.getPokemonTypes();
     this.getPokemons();
   }
 
@@ -38,25 +32,44 @@ export class PokemonsComponent implements OnInit {
     this.loading = true;
     this.pokemonsNotFound = false;
 
-    this.service.getPokemons(url).subscribe((pokemonsResp) => {
-      this.nextUrl = pokemonsResp.next;
+    this.service.getPokemons(url).subscribe({
+      next: (pokemonsResp) => {
+        this.nextUrl = pokemonsResp.next;
 
-      forkJoin(
-        pokemonsResp.results.map((pok) => {
-          return this.service.getPokemonsDetail(pok.url);
-        })
-      ).subscribe((pokemonResp: PokemonInterface[]) => {
-        pokemonResp.forEach((resp) => {
-          this.pokemons.push(new Pokemon(resp));
+        forkJoin(
+          pokemonsResp.results.map((pok) => {
+            return this.service.getPokemonDetail(pok.url);
+          })
+        ).subscribe({
+          next: (pokemonResp: PokemonInterface[]) => {
+            pokemonResp.forEach((resp) => {
+              this.pokemons.push(new Pokemon(resp));
+            });
+
+            this.loading = false;
+          },
+          error: (error) => console.error(error),
         });
-
-        this.loading = false;
-      });
+      },
+      error: (error) => console.error(error),
     });
   };
 
   getMorePokemons = (): void => {
     this.getPokemons(this.nextUrl);
+  };
+
+  getPokemonTypes = (): void => {
+    this.service.getPokemonTypes().subscribe({
+      next: (response) => {
+        this.types = response.results.map((type) => {
+          return {
+            ...type,
+            bg: BG_BASED_ON_TYPE[type.name],
+          };
+        });
+      },
+    });
   };
 
   setKeyword = (event: any): void => {
@@ -74,7 +87,7 @@ export class PokemonsComponent implements OnInit {
     this.pokemonsNotFound = false;
 
     this.service
-      .getPokemonsDetail(this.service.baseUrl + `/pokemon/${this.keyword}`)
+      .getPokemonDetail(this.service.baseUrl + `/pokemon/${this.keyword}`)
       .subscribe({
         next: (response) => {
           this.pokemons = [new Pokemon(response)];

@@ -36,6 +36,20 @@
     <custom-button [onClick]="search">Search..</custom-button>
   </div>
 
+  <div class="flex flex-wrap justify-center gap-3 px-10 mt-5">
+    <div
+      *ngFor="let type of types"
+      class="py-1 px-4 rounded-full cursor-pointer hover:scale-110 duration-300 shadow-md"
+      [style.background-color]="type.bg"
+      [ngClass]="{
+          'text-white': textWithWhiteText.includes(type.name),
+          'text-black/50': !textWithWhiteText.includes(type.name),
+        }"
+    >
+      {{ type.name }}
+    </div>
+  </div>
+
   <div class="my-5" *ngIf="pokemonsNotFound">
     There is no pokemons matched with your search...
   </div>
@@ -54,8 +68,8 @@
         <h3
           class="font-semibold break-words text-4xl z-10"
           [ngClass]="{
-            'text-white': !typeWithBlacktext.includes(pokemon.types[0]),
-            'text-black/50': typeWithBlacktext.includes(pokemon.types[0])
+            'text-white': textWithWhiteText.includes(pokemon.types[0]),
+            'text-black/50': !textWithWhiteText.includes(pokemon.types[0])
           }"
         >
           {{ pokemon.name | titlecase }}
@@ -74,10 +88,10 @@
             <p
               class="text-center text-lg font-semibold rounded-full p-1 px-5"
               [ngClass]="{
-                  'text-white': !typeWithBlacktext.includes(pokemon.types[0]),
-                  'bg-white/25': !typeWithBlacktext.includes(pokemon.types[0]),
-                  'text-black/50': typeWithBlacktext.includes(pokemon.types[0]),
-                  'bg-black/5': typeWithBlacktext.includes(pokemon.types[0]),
+                  'text-white': textWithWhiteText.includes(pokemon.types[0]),
+                  'bg-white/25': textWithWhiteText.includes(pokemon.types[0]),
+                  'text-black/50': !textWithWhiteText.includes(pokemon.types[0]),
+                  'bg-black/5': !textWithWhiteText.includes(pokemon.types[0]),
                 }"
             >
               {{ type | titlecase }}

@@ -26,6 +26,7 @@
       "@/core/components": ["src/app/core/components/index"],
       "@/core/constants": ["src/app/core/constants/index"],
       "@/core/services": ["src/app/core/services/index"],
+      "@/core/interfaces": ["src/app/core/interfaces/index"],
       "@/modules": ["src/app/modules/index.ts"]
     }
   },

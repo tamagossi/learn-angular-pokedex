@@ -18,4 +18,6 @@ export const BG_BASED_ON_TYPE: Record<string, string> = {
   rock: '#f5e6e4',
   steel: '#d6d7d9',
   water: '#58ABF6',
+  unknown: '#CFCFCF',
+  shadow: '#848484',
 };

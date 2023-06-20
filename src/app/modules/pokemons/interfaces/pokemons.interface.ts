@@ -1,16 +1,10 @@
-export interface Result {
-  name: string;
-  url: string;
-}
+import { Result } from '@/core/interfaces';
 
 export interface PokemonsResponse {
   count: number;
   next?: string;
   previous?: string;
-  results: {
-    name: string;
-    url: string;
-  }[];
+  results: Result[];
 }
 
 export interface Pokemon {
