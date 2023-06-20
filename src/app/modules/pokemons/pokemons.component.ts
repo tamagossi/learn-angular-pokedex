@@ -36,20 +36,21 @@ export class PokemonsComponent implements OnInit {
       next: (pokemonsResp) => {
         this.nextUrl = pokemonsResp.next;
 
-        forkJoin(
-          pokemonsResp.results.map((pok) => {
-            return this.service.getPokemonDetail(pok.url);
-          })
-        ).subscribe({
-          next: (pokemonResp: PokemonInterface[]) => {
-            pokemonResp.forEach((resp) => {
-              this.pokemons.push(new Pokemon(resp));
-            });
+        this.getPokemonsDetail(pokemonsResp.results.map((res) => res.url));
+      },
+      error: (error) => console.error(error),
+    });
+  };
 
-            this.loading = false;
-          },
-          error: (error) => console.error(error),
+  getPokemonsDetail = (urls: string[]): void => {
+    forkJoin(urls.map((url) => this.service.getPokemonDetail(url))).subscribe({
+      next: (pokemonResp: PokemonInterface[]) => {
+        pokemonResp.forEach((resp) => {
+          console.log(resp);
+          this.pokemons.push(new Pokemon(resp));
         });
+
+        this.loading = false;
       },
       error: (error) => console.error(error),
     });
@@ -57,6 +58,19 @@ export class PokemonsComponent implements OnInit {
 
   getMorePokemons = (): void => {
     this.getPokemons(this.nextUrl);
+  };
+
+  getPokemonByType = (url: string): void => {
+    this.pokemons = [];
+    this.loading = true;
+    this.nextUrl = undefined;
+
+    this.service.getPokemonTypeDetail(url).subscribe({
+      next: (response) => {
+        this.getPokemonsDetail(response.pokemon.map((pok) => pok.pokemon.url));
+      },
+      error: (error) => console.error(error),
+    });
   };
 
   getPokemonTypes = (): void => {

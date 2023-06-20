@@ -41,6 +41,7 @@
       *ngFor="let type of types"
       class="py-1 px-4 rounded-full cursor-pointer hover:scale-110 duration-300 shadow-md"
       [style.background-color]="type.bg"
+      (click)="getPokemonByType(type.url)"
       [ngClass]="{
           'text-white': textWithWhiteText.includes(type.name),
           'text-black/50': !textWithWhiteText.includes(type.name),
@@ -60,11 +61,11 @@
     *ngIf="pokemons.length > 0 && !pokemonsNotFound"
   >
     <div
-      class="flex flex-col gap-5 bg-red-100 p-7 shadow-lg rounded-2xl w-full hover:scale-105 duration-300 cursor-pointer"
+      class="flex flex-col justify-between gap-4 bg-red-100 p-7 shadow-lg rounded-2xl w-full hover:scale-105 duration-300 cursor-pointer overflow-hidden"
       *ngFor="let pokemon of pokemons"
       [style.background-color]="pokemon.bg"
     >
-      <div class="flex justify-between relative items-center">
+      <div class="flex flex-col justify-between items-start">
         <h3
           class="font-semibold break-words text-4xl z-10"
           [ngClass]="{
@@ -75,14 +76,19 @@
           {{ pokemon.name | titlecase }}
         </h3>
 
-        <h5
-          class="text-black font-semibold text-4xl opacity-10 absolute right-0"
-        >
-          #{{ pokemon.id }}
+        <h5 class="text-black font-semibold text-4xl opacity-10">
+          #{{ pokemon.id.toString().padStart(3, "0") }}
         </h5>
       </div>
 
       <div class="flex justify-between relative items-end">
+        <img
+          class="opacity-5 absolute right-[-70px] bottom-[-70px]"
+          height="400px"
+          width="400px"
+          src="assets/images/pokeball.png"
+        />
+
         <div class="flex flex-col gap-2">
           <div *ngFor="let type of pokemon.types">
             <p
@@ -100,11 +106,10 @@
         </div>
 
         <img
-          [src]="'assets/images/pokemon/' + pokemon.id + '.png'"
-          alt="pokemon"
-          srcset=""
           height="140px"
           width="140px"
+          [alt]="pokemon.name | titlecase"
+          [src]="pokemon.image"
         />
       </div>
     </div>

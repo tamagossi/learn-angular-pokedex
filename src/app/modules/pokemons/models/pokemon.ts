@@ -4,6 +4,7 @@ import { Pokemon as PokemonInterface } from '../interfaces/pokemons.interface';
 export class Pokemon {
   bg: string;
   id: number;
+  image: string;
   name: string;
   types: string[];
 
@@ -12,5 +13,8 @@ export class Pokemon {
     this.id = pokemon.id;
     this.name = pokemon.name;
     this.types = pokemon.types.map((type) => type.type.name);
+    this.image = `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/${pokemon.id
+      .toString()
+      .padStart(3, '0')}.png`;
   }
 }
