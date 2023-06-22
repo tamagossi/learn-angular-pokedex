@@ -17,10 +17,6 @@ export class HeaderComponent {
       label: 'Pokemons',
       path: '/pokemons',
     },
-    {
-      label: 'Legendaries',
-      path: '/legendaries',
-    },
   ];
 
   constructor(protected router: Router) {}

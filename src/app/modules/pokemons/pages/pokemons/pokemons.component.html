@@ -61,62 +61,16 @@
     *ngIf="pokemons.length > 0 && !pokemonsNotFound"
   >
     <div
-      class="flex flex-col justify-between gap-4 bg-red-100 p-7 shadow-lg rounded-2xl w-full hover:scale-105 duration-300 cursor-pointer overflow-hidden"
       *ngFor="let pokemon of pokemons"
+      class="flex flex-col justify-between gap-4 bg-red-100 p-7 shadow-lg rounded-2xl w-full hover:scale-105 duration-300 cursor-pointer overflow-hidden"
       [style.background-color]="pokemon.bg"
     >
-      <div class="flex flex-col justify-between items-start">
-        <h3
-          class="font-semibold break-words text-4xl z-10"
-          [ngClass]="{
-            'text-white': textWithWhiteText.includes(pokemon.types[0]),
-            'text-black/50': !textWithWhiteText.includes(pokemon.types[0])
-          }"
-        >
-          {{ pokemon.name | titlecase }}
-        </h3>
-
-        <h5 class="text-black font-semibold text-4xl opacity-10">
-          #{{ pokemon.id.toString().padStart(3, "0") }}
-        </h5>
-      </div>
-
-      <div class="flex justify-between relative items-end">
-        <img
-          class="opacity-5 absolute right-[-70px] bottom-[-70px]"
-          height="400px"
-          width="400px"
-          src="assets/images/pokeball.png"
-        />
-
-        <div class="flex flex-col gap-2">
-          <div *ngFor="let type of pokemon.types">
-            <p
-              class="text-center text-lg font-semibold rounded-full p-1 px-5"
-              [ngClass]="{
-                  'text-white': textWithWhiteText.includes(pokemon.types[0]),
-                  'bg-white/25': textWithWhiteText.includes(pokemon.types[0]),
-                  'text-black/50': !textWithWhiteText.includes(pokemon.types[0]),
-                  'bg-black/5': !textWithWhiteText.includes(pokemon.types[0]),
-                }"
-            >
-              {{ type | titlecase }}
-            </p>
-          </div>
-        </div>
-
-        <img
-          height="140px"
-          width="140px"
-          [alt]="pokemon.name | titlecase"
-          [src]="pokemon.image"
-        />
-      </div>
+      <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
     </div>
   </section>
 
   <div class="flex justify-center w-screen mt-5 mb-10" *ngIf="loading">
-    <div class="animate-spin" (click)="getMorePokemons()">
+    <div class="animate-spin">
       <img src="assets/icons/loading.svg" alt="Load more" class="w-[50px]" />
     </div>
   </div>

@@ -26,12 +26,20 @@ export class PokemonService extends AdapterService {
       );
   }
 
-  public getPokemonDetail(url: string): Observable<Pokemon> {
-    return this.client.get<Pokemon>(url).pipe(
-      catchError((err) => {
-        throw Error(err);
-      })
-    );
+  public getPokemonDetail({
+    url,
+    id,
+  }: {
+    url?: string;
+    id?: string;
+  }): Observable<Pokemon> {
+    return this.client
+      .get<Pokemon>(url || `${this.baseUrl}/pokemon/${id}`)
+      .pipe(
+        catchError((err) => {
+          throw Error(err);
+        })
+      );
   }
 
   public getPokemonTypeDetail(url: string): Observable<Type> {

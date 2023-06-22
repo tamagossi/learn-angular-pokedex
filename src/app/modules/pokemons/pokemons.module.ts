@@ -4,11 +4,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PokemonsComponent } from './pokemons.component';
 import { PokemonsRoutingModule } from './pokemons-routing.module';
+import { TypeBadgeComponent } from './components/type-badge/type-badge.component';
+import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
+import { PokemonsComponent } from './pages/pokemons/pokemons.component';
+import { PokemonDetailComponent } from './pages/pokemon-detail/pokemon-detail.component';
 
 @NgModule({
-  declarations: [PokemonsComponent],
+  declarations: [PokemonsComponent, TypeBadgeComponent, PokemonCardComponent, PokemonDetailComponent],
   imports: [
     CommonModule,
     CoreModule,
